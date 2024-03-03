@@ -1,0 +1,113 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap">
+    <title>NumberScrapes</title>
+    <style>
+        body {
+  font-family: 'Nunito', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: bisque; 
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+h1 {
+  text-align: center;
+  font-size: 2.5rem;
+}
+p1 {
+  text-align: center;
+  font-size: 1rem;
+  margin-bottom: 10px;
+}
+
+.options {
+  display: inline-flex;
+ 
+  gap: 20px;
+}
+
+.option {
+  flex-basis: calc(33.33% - 20px);
+  background-color: #92eefa;
+  padding: 20px;
+  border-radius: 20px;
+  flex-grow: 1;
+}
+
+.option h2 {
+  text-align: center;
+  font-size: 1.5rem;
+}
+
+.option p {
+  font-size: 1rem;
+  margin-bottom: 10px;
+}
+
+.option button {
+  padding: 10px 20px;
+  background-color: #701274;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.option button:hover {
+  background-color: #0056b3;
+}
+
+@media screen and (max-width: 768px) {
+  .option {
+      flex-basis: calc(50% - 20px);
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .option {
+      flex-basis: 100%;
+  }
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome To NumberScrapes</h1>
+        <p1>This is a tool for generating different arrangements of numbers.</p1>
+        <div class="options">
+            <div class="option">
+                <h2>Generate 4 Numbers</h2>
+                <p>Generate arrangements of 4 numbers.</p>
+                <button onclick="redirectToGeneratePage(4)">Generate</button>
+            </div>
+            <div class="option">
+                <h2>Generate 10 Numbers</h2>
+                <p>Generate arrangements of 10 numbers.</p>
+                <button onclick="redirectToGeneratePage(10)">Generate</button>
+            </div>
+            <div class="option">
+                <h2>Generate 16 Numbers</h2>
+                <p>Generate arrangements of 16 numbers.</p>
+                <button onclick="redirectToGeneratePage(16)">Generate</button>
+            </div>
+        </div>
+    </div>
+    <script>
+    function redirectToGeneratePage(num) {
+        window.location.href = `/generator.html?num=${num}`;
+    }</script>
+</body>
+</html>
+

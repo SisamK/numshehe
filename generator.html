@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/svg+xml" href="/vite.svg">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap">
+
+    <title>Number Generator</title>
+    <style>
+        * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Nunito", sans-serif;
+}
+
+body {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column; 
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(45deg, #f5a3f8, #e3f7b5);
+}
+header{
+    position: relative;
+}
+.generator {
+    border: 1px solid #eafa07;
+    padding: 20px;
+    border-radius: 16px;
+    background: transparent;
+    box-shadow: 0px 3px 15px rgba(20, 86, 218, 0.5);
+    margin-bottom: 20px; /* Add margin at the bottom */
+}
+
+input {
+    width: 320px;
+    border: none;
+    padding: 24px;
+    margin: 10px;
+    background: transparent;
+    box-shadow: 0px 3px 15px rgba(1, 6, 43, 0.829);
+    font-size: 40px;
+    text-align: right;
+    cursor: pointer;
+    color: #0a0000;
+}
+
+input::placeholder {
+    color: #ffffff;
+}
+
+button {
+    border: none;
+    width: 60px;
+    height: 60px;
+    margin: 10px;
+    border-radius: 50%;
+    background: transparent;
+    color: #000e0b;
+    font-size: 20px;
+    box-shadow: -8px -8px 15px rgba(0, 2, 17, 0.856);
+    cursor: pointer;
+}
+
+.generateBtn {
+    width: fit-content;
+    background: linear-gradient(45deg, #f5a3f8, #e3f7b5);
+}
+
+.operator {
+    color: #050c00;
+}
+
+.container {
+    position: relative;
+    width: auto;
+    height: auto;
+}
+
+.generator {
+    margin-bottom: 20px;
+}
+
+.output-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    max-width: 100%;
+    overflow: auto;
+}
+
+.output-container p {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 12px;
+}
+
+.arrangement {
+    background-color: #f0f0f0;
+    padding: 10px;
+    border-radius: 5px;
+    margin: 0 12px 12px 0;
+}
+
+    </style>
+</head>
+<body>
+    <header>
+        <a href="index.html">Home</a>
+    </header>
+    <div class="container">
+        <div class="generator">
+            <input type="text" placeholder="Enter numbers" id="inputBox" maxlength="16">
+
+            <div>
+                <button onclick="addToInput('7')">7</button>
+                <button onclick="addToInput('8')">8</button>
+                <button onclick="addToInput('9')">9</button>
+            </div>
+            <div>
+                <button onclick="addToInput('4')">4</button>
+                <button onclick="addToInput('5')">5</button>
+                <button onclick="addToInput('6')">6</button>
+            </div>
+            <div>
+                <button onclick="addToInput('1')">1</button>
+                <button onclick="addToInput('2')">2</button>
+                <button onclick="addToInput('3')">3</button>
+            </div>
+            <div>
+                <button onclick="addToInput('0')">0</button>
+                <button class="generateBtn" onclick="generateArrangements()">Generate</button>
+                <button class="operator" onclick="deleteLast()">Delete</button>
+            </div>
+        </div>
+    </div>
+    <div class="output-container" id="output">
+        <p>Possible Arrangements:</p>
+    </div>
+
+    <script>
+        const inputBox = document.getElementById('inputBox');
+const output = document.getElementById('output');
+
+function generatePermutations4(numbers) {
+    const result = [];
+    const helper = (arr, index) => {
+        if (index === arr.length - 1) {
+            result.push([...arr]);
+            return;
+        }
+        for (let i = index; i < arr.length; i++) {
+            [arr[i], arr[index]] = [arr[index], arr[i]];
+            helper(arr, index + 1);
+            [arr[i], arr[index]] = [arr[index], arr[i]];
+        }
+    };
+    helper(numbers.split(''), 0);
+    return result.map(arrangement => arrangement.join(''));
+}
+
+function generatePermutations10(numbers) {
+    const result = [];
+    const fixedDigits = numbers.slice(0, 2); 
+    const remainingDigits = numbers.slice(2); 
+
+    const helper = (arr, index) => {
+        if (index === arr.length - 1) {
+            result.push([...arr]);
+            return;
+        }
+        for (let i = index; i < arr.length; i++) {
+            [arr[i], arr[index]] = [arr[index], arr[i]];
+            helper(arr, index + 1);
+            [arr[i], arr[index]] = [arr[index], arr[i]]; 
+        }
+    };
+
+    helper(remainingDigits.split(''), 0); 
+    result.forEach(arrangement => {
+        arrangement.unshift(...fixedDigits);
+    });
+
+    return result.map(arrangement => arrangement.join(''));
+}
+
+function generatePermutations16(numbers) {
+    const result = [];
+
+    const helper = (arr, index) => {
+        if (index === arr.length) {
+            result.push([...arr]);
+            return;
+        }
+        for (let i = index; i < arr.length; i++) {
+            [arr[i], arr[index]] = [arr[index], arr[i]];
+            helper(arr, index + 1);
+            [arr[i], arr[index]] = [arr[index], arr[i]];
+        }
+    };
+
+    if (numbers.length !== 16) {
+        throw new Error('Input must be exactly 16 digits.');
+    }
+
+    helper(numbers.split(''), 0);
+    return result.map(arrangement => arrangement.join(''));
+}
+
+
+function generateArrangements() {
+    const inputNumbers = inputBox.value;
+    const inputLength = inputNumbers.length;
+
+    try {
+        if (inputLength === 4) {
+            if (/^\d{4}$/.test(inputNumbers)) {
+                const arrangements = generatePermutations4(inputNumbers);
+                displayArrangements(arrangements);
+            } else {
+                output.innerHTML = 'Please enter exactly 4 digits.';
+            }
+        } else if (inputLength === 10) {
+            if (/^98\d{8}$/.test(inputNumbers)) {
+                const arrangements = generatePermutations10(inputNumbers);
+                displayArrangements(arrangements);
+            } else {
+                output.innerHTML = 'Please enter 10 digits starting with "98".';
+            }
+        } 
+        if (inputLength === 16) {
+            if (/^\d{16}$/.test(inputNumbers)) {
+                const arrangements = generatePermutations16(inputNumbers);
+                displayArrangements(arrangements);
+            } else {
+                output.innerHTML = 'Please enter exactly 16 digits.';
+            }
+        } else {
+            output.innerHTML = 'Please enter a valid number of digits (16 digits required).';
+        }
+    } catch (error) {
+        output.innerHTML = error.message; 
+    }
+}
+
+function displayArrangements(arrangements) {
+    const output = document.getElementById('output');
+    output.innerHTML = '<p>Possible Arrangements:</p>';
+    arrangements.forEach(arrangement => {
+        const div = document.createElement('div');
+        div.classList.add('arrangement');
+        div.textContent = arrangement;
+        output.appendChild(div);
+    });
+}
+
+    </script> 
+</body>
+</html>
